@@ -1,0 +1,66 @@
+page-home {
+    .xcalc{
+        ion-grid{
+            padding:0px;
+        }
+        background-color: #fff;
+        height:100%;
+        .xclac__grid{
+            height:100%;
+        }
+        .xclac__display{
+            height:40%;
+            padding-right:10px;
+            .history{
+                height:60%;
+                text-align: right;
+                font-size:1.4em;
+                color:#858585;
+            }
+            .main{
+                height:25%;
+                text-align: right;
+                font-size:3.6em;
+                color:#181818;
+            }
+            .sub{
+                height:15%;
+                text-align: right;
+                color:#858585;
+                font-size:1.7em;
+            }
+        }
+        .xclac__controller{
+            height:60%;
+            ion-grid{
+                height:100%;
+                ion-row{
+                    //text-align: center;
+                    height:25%;
+                }
+                .operator{
+                    button{
+                        color:#fff;
+                    }
+                }
+                ion-col{
+                    padding:0px;
+                    margin:0px;
+                    border-top:1px solid #C5C5C5;
+                    border-left:1px solid #C5C5C5;
+                    button{
+                        width:100%;
+                        height:100%;
+                        margin:0px;
+                        color:#787878;
+                        font-size:2.2em;
+                        border-radius:0px;
+                    }
+                }
+            }
+            .control-zero{
+                //text-align: left;
+            }
+        }
+    }
+}

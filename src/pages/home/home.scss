@@ -36,6 +36,10 @@ page-home {
                     text-align: right;
                     font-size:3.6em;
                     color:#181818;
+                    #main-display-buf{
+                        word-wrap:normal;
+                        overflow-x:scroll;
+                    }
                 }
                 .sub{
                     height:15%;
@@ -66,7 +70,6 @@ page-home {
                 border-left:1px solid #C5C5C5;
                 button{
                     width:100%;
-                    height:100%;
                     margin:0px;
                     color:#787878;
                     font-size:2.2em;

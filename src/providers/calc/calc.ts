@@ -3,9 +3,10 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class CalcProvider {
-    private buf:number;
+    public buf:string;
+    public decimalFlag:boolean = false;
     constructor() {
-        this.buf = 0;
+        this.buf = "";
     }
 
     addition(x, y){
@@ -21,15 +22,48 @@ export class CalcProvider {
         return x / y;
     }
     push(x){
-        this.buf = (this.buf * 10) + x;
+        if(this.buf.length <= 28){
+            this.buf = this.buf + x;
+        }
         return this.buf;
     }
     pull(){
-        this.buf = Math.floor(this.buf / 10);
+        //this.buf = Math.floor(this.buf / 10);
+        this.buf = this.buf.slice(0, -1);
         return this.buf;
     }
     clear(){
-        this.buf = 0;
+        this.buf = "";
+        this.decimalFlag = false;
         return this.buf;
     }
+    percent(){
+        if(this.buf != ""){
+            this.buf = String(Number(this.buf) / 100);
+            this.decimalFlag = true;
+        }
+        return this.buf;
+    }
+    decimal(){
+        if(!this.decimalFlag){
+            this.decimalFlag = true;
+            this.buf = this.buf + ".";
+        }
+        return this.buf;
+    }
+
+
+    getDecimalPlace(x) {
+        if (typeof x !== 'number') {
+            return null;
+        }
+
+        var decimalPlace = 0;
+        var numbers = x.toString().split('.');
+        if (numbers[1]) {
+            decimalPlace = numbers[1].length;
+        }
+
+        return decimalPlace;
+    };
 }

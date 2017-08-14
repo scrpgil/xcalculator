@@ -10,8 +10,8 @@
           </ion-col>
         </ion-row>
         <ion-row justify-content-end class="main">
-          <ion-col align-self-end col-12>
-            <div>{{buf}}</div>
+          <ion-col id="main-display" align-self-end col-12>
+            <div id="main-display-buf" [style.font-size.vw]="fontSize">{{buf | mainDisplay}}</div>
           </ion-col>
         </ion-row>
         <ion-row justify-content-center class="sub">
@@ -50,9 +50,9 @@
           <ion-col col-3 class="operator"><button (tap)="addtion()" ion-button color="operatorbt">+</button></ion-col>
         </ion-row>
         <ion-row justify-content-center>
-          <ion-col col-3><button color="numericbt" ion-button>%</button></ion-col>
+          <ion-col col-3><button (tap)="percent()" color="numericbt" ion-button>%</button></ion-col>
           <ion-col col-3><button (tap)="push(0)" color="numericbt" ion-button>0</button></ion-col>
-          <ion-col col-3><button color="numericbt" ion-button>.</button></ion-col>
+          <ion-col col-3><button (tap)="decimal()" color="numericbt" ion-button>.</button></ion-col>
           <ion-col col-3 class="operator"><button color="operatorbt" ion-button>=</button></ion-col>
         </ion-row>
       </ion-grid>

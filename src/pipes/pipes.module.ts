@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { MainDisplayPipe } from './../pipes/main-display/main-display';
+import { CommaSeparatorPipe } from './../pipes/comma-separator/comma-separator';
 @NgModule({
-	declarations: [MainDisplayPipe],
+	declarations: [CommaSeparatorPipe],
 	imports: [],
-	exports: [MainDisplayPipe]
+	exports: [CommaSeparatorPipe]
 })
 export class PipesModule {}

@@ -8,6 +8,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { CalcProvider } from '../providers/calc/calc';
 import { PipesModule } from '../pipes/pipes.module';
+import { DirectivesModule } from '../directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { PipesModule } from '../pipes/pipes.module';
   imports: [
     BrowserModule,
     PipesModule,
+    DirectivesModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],

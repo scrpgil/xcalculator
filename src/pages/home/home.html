@@ -5,18 +5,18 @@
         <ion-row class="history">
           <ion-col id="history-col" col-12>
             <div id="history-list" class="history-list" [style.marginTop.px]="marginTop">
-              <div class="history-value" *ngFor="let i of arr;">-666,666</div>
+              <div class="history-value" *ngFor="let c of calcHistories;">{{c.Operator}} {{c.Buffer | commaSeparatorPipe}}</div>
             </div>
           </ion-col>
         </ion-row>
         <ion-row justify-content-end class="main">
           <ion-col id="main-display" align-self-end col-12>
-            <div id="main-display-buf" [style.font-size.vw]="fontSize">{{buf | mainDisplay}}</div>
+            <div [flowtype]="12" text="{{nowOperate}} {{nowCalc.Buffer | commaSeparatorPipe}}" id="main-display-buf"></div>
           </ion-col>
         </ion-row>
         <ion-row justify-content-center class="sub">
           <ion-col align-self-end col-12>
-            <div>= 666</div>
+            <div [flowtype]="7" text="= {{calcHistory() | commaSeparatorPipe}}"></div>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -29,25 +29,25 @@
           <ion-col col-3>
             <button (tap)="pull()" ion-button color="numericbt"><ion-icon name="backspace-outline"></ion-icon></button>
           </ion-col>
-          <ion-col col-3 class="operator"><button ion-button color="operatorbt">÷</button></ion-col>
+          <ion-col col-3 class="operator"><button (tap)="operator('÷')" ion-button color="operatorbt">÷</button></ion-col>
         </ion-row>
         <ion-row justify-content-center>
           <ion-col col-3><button (tap)="push(7)" ion-button color="numericbt">7</button></ion-col>
           <ion-col col-3><button (tap)="push(8)" ion-button color="numericbt">8</button></ion-col>
           <ion-col col-3><button (tap)="push(9)" ion-button color="numericbt">9</button></ion-col>
-          <ion-col col-3 class="operator"><button ion-button color="operatorbt">×</button></ion-col>
+          <ion-col col-3 class="operator"><button (tap)="operator('×')" ion-button color="operatorbt">×</button></ion-col>
         </ion-row>
         <ion-row justify-content-center>
           <ion-col col-3><button (tap)="push(4)" ion-button color="numericbt">4</button></ion-col>
           <ion-col col-3><button (tap)="push(5)" ion-button color="numericbt">5</button></ion-col>
           <ion-col col-3><button (tap)="push(6)" ion-button color="numericbt">6</button></ion-col>
-          <ion-col col-3 class="operator"><button ion-button color="operatorbt">-</button></ion-col>
+          <ion-col col-3 class="operator"><button (tap)="operator('-')" ion-button color="operatorbt">-</button></ion-col>
         </ion-row>
         <ion-row justify-content-center>
           <ion-col col-3><button (tap)="push(1)" ion-button color="numericbt">1</button></ion-col>
           <ion-col col-3><button (tap)="push(2)" ion-button color="numericbt">2</button></ion-col>
           <ion-col col-3><button (tap)="push(3)" ion-button color="numericbt">3</button></ion-col>
-          <ion-col col-3 class="operator"><button (tap)="addtion()" ion-button color="operatorbt">+</button></ion-col>
+          <ion-col col-3 class="operator"><button (tap)="operator('+')" ion-button color="operatorbt">+</button></ion-col>
         </ion-row>
         <ion-row justify-content-center>
           <ion-col col-3><button (tap)="percent()" color="numericbt" ion-button>%</button></ion-col>

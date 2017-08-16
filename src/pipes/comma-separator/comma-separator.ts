@@ -1,15 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-/**
- * Generated class for the MainDisplayPipe pipe.
- *
- * See https://angular.io/docs/ts/latest/guide/pipes.html for more info on
- * Angular Pipes.
- */
 @Pipe({
-    name: 'mainDisplay',
+    name: 'commaSeparatorPipe',
 })
-export class MainDisplayPipe implements PipeTransform {
+export class CommaSeparatorPipe implements PipeTransform {
     transform(value: string, ...args) {
         var ret ="";
         var res = value.split(".");

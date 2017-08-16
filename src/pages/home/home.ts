@@ -1,58 +1,59 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { CalcProvider } from '../../providers/calc/calc';
-import { MainDisplayPipe } from '../../pipes/main-display/main-display';
 
 @Component({
     selector: 'page-home',
     templateUrl: 'home.html',
-    providers: [CalcProvider,MainDisplayPipe]
+    providers: [CalcProvider]
 })
 export class HomePage {
-    private buf:string;
-    private arr:any = [];
+    private nowCalc:any;
+    private calcHistories:any = [];
     private marginTop:number;
-    private fontSize:number;
+    private nowOperate:string;
 
     constructor(
         public navCtrl: NavController, 
-        public mainDisplayPipe: MainDisplayPipe, 
         private calc:CalcProvider
     ) {
-        this.buf = "";
-        this.fontSize = 15;
+        this.nowCalc = this.calc.getNowCalc();
+        this.calcHistories = this.calc.getCalcHistories();
     }
     ionViewDidEnter(){
     }
-    addtion(){
-        this.arr.push(1);
-        this.scrollListMargin();
+    operator(operate:string){
+        if(this.nowCalc.Buffer != ""){
+            this.calcHistories = this.calc.addCalcHistories(this.calc.createCalcHistory(this.nowOperate));
+            this.nowCalc = this.calc.getNowCalc();
+            this.scrollListMargin();
+        }
+        this.nowOperate = this.calc.changeNowCalcOperate(operate);
     }
     push(x){
-        this.buf = this.calc.push(x);
-        this.changeMainDisplayFontSize();
+        this.nowCalc = this.calc.push(x);
     }
     pull(){
-        this.buf = this.calc.pull();
-        this.changeMainDisplayFontSize();
+        this.nowCalc = this.calc.pull();
     }
     clear(){
-        this.buf = this.calc.clear();
-        this.fontSize = 15;
+        this.nowCalc = this.calc.clear();
     }
     percent(){
-        this.buf = this.calc.percent();
-        this.changeMainDisplayFontSize();
+        this.nowCalc = this.calc.percent();
     }
     decimal(){
-        this.buf = this.calc.decimal();
-        this.changeMainDisplayFontSize();
+        this.nowCalc = this.calc.decimal();
     }
+    calcHistory(){
+        return String(this.calc.calculateHistory());
+    }
+
 
     // 画面描画関係
     scrollListMargin(){
         var history_col = <HTMLElement>document.getElementById('history-col');
-        var tmp = history_col.offsetHeight- (this.arr.length * 24);
+        var tmp = history_col.offsetHeight- (this.calcHistories.length * 24);
         if(tmp < 0){
             tmp = 0;
         }
@@ -61,13 +62,5 @@ export class HomePage {
         setTimeout(()=>{   
             history_list.scrollTop = history_list.scrollHeight - history_list.clientHeight;;
         }, 50);
-    }
-    changeMainDisplayFontSize(){
-        var tmp = this.mainDisplayPipe.transform(this.buf);
-        var len = tmp.length - 1;
-        if(15 > (100 / len) * 1.7){
-            var ret = (100 / len) * 1.7;
-            this.fontSize = ret;
-        }
     }
 }

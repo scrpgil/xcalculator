@@ -9,7 +9,7 @@ import { CalcProvider } from '../../providers/calc/calc';
 })
 export class HomePage {
     private nowCalc:any;
-    private calcHistories:any = [];
+    private calcs:any = [];
     private marginTop:number;
     private nowOperate:string;
 
@@ -17,20 +17,38 @@ export class HomePage {
         public navCtrl: NavController, 
         private calc:CalcProvider
     ) {
-        this.nowCalc = this.calc.getNowCalc();
-        this.calcHistories = this.calc.getCalcHistories();
+        this.init();
     }
-    ionViewDidEnter(){
+
+    init(){
+        this.nowCalc = this.calc.getNowCalc();
+        this.calcs = this.calc.getCalcs();
+        this.nowOperate = "";
     }
     operator(operate:string){
         if(this.nowCalc.Buffer != ""){
-            this.calcHistories = this.calc.addCalcHistories(this.calc.createCalcHistory(this.nowOperate));
+            this.calcs = this.calc.addOperator(this.nowOperate);
             this.nowCalc = this.calc.getNowCalc();
             this.scrollListMargin();
+        }else{
+            if(this.nowOperate == "="){
+                this.push(this.sumCalcs());
+                this.calcs = this.calc.addOperator("");
+                this.nowCalc = this.calc.getNowCalc();
+                this.scrollListMargin();
+            }
+        }
+        if(operate == "="){
+            if(this.nowOperate != "="){
+                this.calc.equal();
+            }
         }
         this.nowOperate = this.calc.changeNowCalcOperate(operate);
     }
     push(x){
+        if(this.nowOperate == "="){
+            this.nowOperate = this.calc.changeNowCalcOperate("");
+        }
         this.nowCalc = this.calc.push(x);
     }
     pull(){
@@ -45,21 +63,25 @@ export class HomePage {
     decimal(){
         this.nowCalc = this.calc.decimal();
     }
-    calcHistory(){
-        return String(this.calc.calculateHistory());
+    sumCalcs(){
+        return String(this.calc.sumCalcs());
+    }
+    allClear(){
+        this.calc.allClear();
+        this.init();
     }
 
 
     // 画面描画関係
     scrollListMargin(){
-        var history_col = <HTMLElement>document.getElementById('history-col');
-        var tmp = history_col.offsetHeight- (this.calcHistories.length * 24);
-        if(tmp < 0){
-            tmp = 0;
-        }
-        this.marginTop = tmp;
-        var history_list = <HTMLElement>document.getElementById('history-list');
         setTimeout(()=>{   
+            var history_col = <HTMLElement>document.getElementById('history-col');
+            var history_list = <HTMLElement>document.getElementById('history-list');
+            var tmp = history_col.offsetHeight- ((history_list.childElementCount + 1) * 24);
+            if(tmp < 0){
+                tmp = 0;
+            }
+            this.marginTop = tmp;
             history_list.scrollTop = history_list.scrollHeight - history_list.clientHeight;;
         }, 50);
     }

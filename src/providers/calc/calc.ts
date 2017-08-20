@@ -1,21 +1,34 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 
-export interface ICalcHistory {
+export interface ICalc{
     Buffer: string;
     Operator: string;
+}
+
+export interface IOldCalcs{
+    Calcs: ICalc[][];
 }
 
 @Injectable()
 export class CalcProvider {
     public buf:string;
-    public nowCalc:ICalcHistory;
-    public calcHistories:ICalcHistory[] = [];
+    public nowCalc:ICalc;
+    public calcs:ICalc[] = [];
+    public oldCalcs:IOldCalcs;
     public decimalFlag:boolean = false;
 
     constructor() {
+        this.init();
+    }
+
+    init(){
         this.buf = "";
-        this.nowCalc = this.createCalcHistory();
+        this.nowCalc = this.createCalc();
+        this.calcs = [];
+        this.decimalFlag = false;
+        var oldCalcs:IOldCalcs;
+        this.oldCalcs = oldCalcs;
     }
 
     addition(x, y){
@@ -28,6 +41,9 @@ export class CalcProvider {
         return x * y;
     }
     division(x, y){
+        if(y == 0){
+            return Infinity;
+        }
         return x / y;
     }
     push(x){
@@ -59,6 +75,14 @@ export class CalcProvider {
         }
         return this.nowCalc;
     }
+    equal(){
+        var calc = this.createCalc("=");
+        calc.Buffer = String(this.sumCalcs()); 
+        this.calcs.push(calc);
+    }
+    allClear(){
+        this.init();
+    }
     getNowCalc(){
         return this.nowCalc;
     }
@@ -67,40 +91,44 @@ export class CalcProvider {
         return this.nowCalc.Operator;
     }
 
-    // ここからcalcHistoru関連
-    createCalcHistory(operate:string = ""){
-        var calcHistory: ICalcHistory = {
+    // ここからcalc関連
+    getCalcs(){
+        return this.calcs;
+    }
+    addOperator(operate:string = ""){
+        var calc = this.createCalc(operate);
+        return this.addCalcs(calc);
+    }
+    addCalcs(calc:ICalc){
+        this.calcs.push(this.nowCalc);
+        this.nowCalc = calc;
+        return this.calcs;
+    }
+    createCalc(operate:string = ""){
+        var calc: ICalc= {
             Buffer:"",
             Operator:operate
         };
-        return calcHistory;
+        return calc;
     }
-    getCalcHistories(){
-        return this.calcHistories;
+    clearCalcs(){
+        this.calcs = [];
+        return this.calcs;
     }
-    addCalcHistories(calcHistory:ICalcHistory){
-        this.calcHistories.push(this.nowCalc);
-        this.nowCalc = calcHistory;
-        return this.calcHistories;
-    }
-    clearCalcHistories(){
-        this.calcHistories = [];
-        return this.calcHistories;
-    }
-    calculateHistory():number{
+    sumCalcs():number{
         var sum = 0;
-        for(var i=0; i < this.calcHistories.length; i++){
-            if(i == 0){
-                sum = this.convertAtoI(this.calcHistories[i].Buffer);
-                continue;
-            }
-            sum = this.calculateCalc(sum, this.calcHistories[i]);
+        for(var i=0; i < this.calcs.length; i++){
+            sum = this.sumCalc(sum, this.calcs[i]);
         }
-        sum = this.calculateCalc(sum, this.nowCalc);
+        sum = this.sumCalc(sum, this.nowCalc);
         return sum;
     }
-    calculateCalc(sum:number, calc:ICalcHistory):number{
-        if(calc.Operator == "" || calc.Operator == "+"){
+    private sumCalc(sum:number, calc:ICalc):number{
+        if(calc.Buffer == ""){
+            // なにもしない
+        } else if(calc.Operator == ""){
+            sum = this.convertAtoI(calc.Buffer);
+        } else if(calc.Operator == "+"){
             sum = this.addition(sum, this.convertAtoI(calc.Buffer));
         } else if(calc.Operator == "-"){
             sum = this.subtraction(sum, this.convertAtoI(calc.Buffer));
@@ -113,5 +141,13 @@ export class CalcProvider {
     }
     convertAtoI(num:string):number{
         return Number(num);
+    }
+    // ここからoldCalc関連
+    addOldCalcs(){
+        this.oldCalcs.Calcs.push(this.calcs);
+        return;
+    }
+    getOldCalcs(){
+        return this.oldCalcs;
     }
 }

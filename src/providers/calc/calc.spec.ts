@@ -54,60 +54,77 @@ describe('CalcProvider ', () => {
         expect(provider.push(4).Buffer).toBe("4.4");
         expect(provider.decimalFlag).toBe(true);
     });
-    it('createCalcHistory', ()=>{
-        expect(provider.createCalcHistory("+").Operator).toBe("+");
+    it('createCalc', ()=>{
+        expect(provider.createCalc("+").Operator).toBe("+");
     });
-    it('addCalcHistory', ()=>{
-        provider.clearCalcHistories();
-        provider.addCalcHistories(provider.createCalcHistory("+"))
+    it('addOperator', ()=>{
+        provider.clearCalcs();
+        provider.addOperator("+")
         expect(provider.getNowCalc().Operator).toBe("+");
     });
-    it('celarCalcHistory', ()=>{
-        provider.clearCalcHistories();
-        var tmp = provider.createCalcHistory("+");
-        provider.addCalcHistories(tmp);
-        expect(provider.calcHistories.length).toBe(1); 
-        provider.clearCalcHistories();
-        expect(provider.calcHistories.length).toBe(0);
+    it('addCalc', ()=>{
+        provider.clearCalcs();
+        provider.addOperator("+")
+        expect(provider.getNowCalc().Operator).toBe("+");
     });
-    it('calculateHistory', ()=>{
+    it('celarCalc', ()=>{
+        provider.clearCalcs();
+        provider.addOperator("+");
+        expect(provider.calcs.length).toBe(1); 
+        provider.clearCalcs();
+        expect(provider.calcs.length).toBe(0);
+    });
+    it('sum', ()=>{
         // 足し算
-        provider.clear();
         provider.push(4);
-        provider.addCalcHistories(provider.createCalcHistory("+"));
-        provider.clear();
+        provider.addOperator("+");
         provider.push(4);
-        expect(provider.calculateHistory()).toBe(8);
-        provider.clearCalcHistories();
+        expect(provider.sumCalcs()).toBe(8);
+        provider.allClear();
 
         // 引き算
-        provider.clear();
         provider.push(8);
-        provider.addCalcHistories(provider.createCalcHistory("-"));
-        provider.clear();
+        provider.addOperator("-");
         provider.push(4);
-        expect(provider.calculateHistory()).toBe(4);
-        provider.clearCalcHistories();
+        expect(provider.sumCalcs()).toBe(4);
+        provider.allClear();
 
         // 割り算
-        provider.clear();
         provider.push(9);
-        provider.addCalcHistories(provider.createCalcHistory("÷"));
-        provider.clear();
+        provider.addOperator("÷");
         provider.push(2);
-        expect(provider.calculateHistory()).toBe(4.5);
-        provider.clearCalcHistories();
+        expect(provider.sumCalcs()).toBe(4.5);
+        provider.allClear();
 
         // 掛け算
-        provider.clear();
         provider.push(9);
-        provider.addCalcHistories(provider.createCalcHistory("×"));
-        provider.clear();
+        provider.addOperator("×");
         provider.push(2);
-        expect(provider.calculateHistory()).toBe(18);
-        provider.clearCalcHistories();
+        expect(provider.sumCalcs()).toBe(18);
+        provider.allClear();
+    });
+    it('equal', ()=>{
+        provider.allClear();
+        provider.push(4);
+        provider.addOperator("+");
+        provider.push(4);
+        //expect(provider.sumCalcs()).toBe(8);
+        provider.equal();
+        var calcs = provider.getCalcs();
+        console.log(calcs);
+        expect(calcs[calcs.length - 1].Buffer).toBe("8");
     });
     it('convert buffer', ()=>{
         expect(provider.convertAtoI("1234")).toBe(1234);
+    });
+    it('all calcs clear', ()=>{
+        provider.allClear();
+        provider.push(9);
+        provider.addOperator("+");
+        provider.push(2);
+        expect(provider.sumCalcs()).toBe(11);
+        provider.allClear()
+        expect(provider.getNowCalc().Operator).toBe("");
+        expect(provider.getNowCalc().Buffer).toBe("");
     });
 });

@@ -5,18 +5,22 @@
         <ion-row class="history">
           <ion-col id="history-col" col-12>
             <div id="history-list" class="history-list" [style.marginTop.px]="marginTop">
-              <div class="history-value" *ngFor="let c of calcHistories;">{{c.Operator}} {{c.Buffer | commaSeparatorPipe}}</div>
+              <ng-container *ngFor="let c of calcs; let last = last">
+                <div *ngIf="!(c.Operator == '=' && last)"  class="history-value">{{c.Operator}} {{c.Buffer | commaSeparatorPipe}}</div>
+                <div *ngIf="c.Operator == '=' && !last" class="history-value">------------------------------</div>
+              </ng-container>
             </div>
           </ion-col>
         </ion-row>
         <ion-row justify-content-end class="main">
           <ion-col id="main-display" align-self-end col-12>
-            <div [flowtype]="12" text="{{nowOperate}} {{nowCalc.Buffer | commaSeparatorPipe}}" id="main-display-buf"></div>
+            <div *ngIf="nowOperate != '='" [flowtype]="12" text="{{nowOperate}} {{nowCalc.Buffer | commaSeparatorPipe}}" id="main-display-buf"></div>
+            <div *ngIf="nowOperate == '='" [flowtype]="12" text="= {{sumCalcs() | commaSeparatorPipe}}"></div>
           </ion-col>
         </ion-row>
         <ion-row justify-content-center class="sub">
           <ion-col align-self-end col-12>
-            <div [flowtype]="7" text="= {{calcHistory() | commaSeparatorPipe}}"></div>
+            <div *ngIf="nowOperate != '='" [flowtype]="7" text="= {{sumCalcs() | commaSeparatorPipe}}"></div>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -24,7 +28,7 @@
     <ion-row class="xcalc__controller">
       <ion-grid>
         <ion-row justify-content-center>
-          <ion-col col-3><button ion-button color="numericbt">AC</button></ion-col>
+          <ion-col col-3><button (tap)="allClear()" ion-button color="numericbt">AC</button></ion-col>
           <ion-col col-3><button (tap)="clear()" ion-button color="numericbt">C</button></ion-col>
           <ion-col col-3>
             <button (tap)="pull()" ion-button color="numericbt"><ion-icon name="backspace-outline"></ion-icon></button>
@@ -53,7 +57,7 @@
           <ion-col col-3><button (tap)="percent()" color="numericbt" ion-button>%</button></ion-col>
           <ion-col col-3><button (tap)="push(0)" color="numericbt" ion-button>0</button></ion-col>
           <ion-col col-3><button (tap)="decimal()" color="numericbt" ion-button>.</button></ion-col>
-          <ion-col col-3 class="operator"><button color="operatorbt" ion-button>=</button></ion-col>
+          <ion-col col-3 class="operator"><button (tap)="operator('=')" color="operatorbt" ion-button>=</button></ion-col>
         </ion-row>
       </ion-grid>
     </ion-row>

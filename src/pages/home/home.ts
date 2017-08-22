@@ -10,7 +10,6 @@ import { CalcProvider } from '../../providers/calc/calc';
 export class HomePage {
     private nowCalc:any;
     private calcs:any = [];
-    private marginTop:number;
     private nowOperate:string;
 
     constructor(
@@ -29,13 +28,11 @@ export class HomePage {
         if(this.nowCalc.Buffer != ""){
             this.calcs = this.calc.addOperator(this.nowOperate);
             this.nowCalc = this.calc.getNowCalc();
-            this.scrollListMargin();
         }else{
             if(this.nowOperate == "="){
                 this.push(this.sumCalcs());
                 this.calcs = this.calc.addOperator("");
                 this.nowCalc = this.calc.getNowCalc();
-                this.scrollListMargin();
             }
         }
         if(operate == "="){
@@ -48,6 +45,7 @@ export class HomePage {
     push(x){
         if(this.nowOperate == "="){
             this.nowOperate = this.calc.changeNowCalcOperate("");
+            this.calcs = this.calc.addOperator();
         }
         this.nowCalc = this.calc.push(x);
     }
@@ -69,20 +67,5 @@ export class HomePage {
     allClear(){
         this.calc.allClear();
         this.init();
-    }
-
-
-    // 画面描画関係
-    scrollListMargin(){
-        setTimeout(()=>{   
-            var history_col = <HTMLElement>document.getElementById('history-col');
-            var history_list = <HTMLElement>document.getElementById('history-list');
-            var tmp = history_col.offsetHeight- ((history_list.childElementCount + 1) * 24);
-            if(tmp < 0){
-                tmp = 0;
-            }
-            this.marginTop = tmp;
-            history_list.scrollTop = history_list.scrollHeight - history_list.clientHeight;;
-        }, 50);
     }
 }

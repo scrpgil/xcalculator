@@ -4,12 +4,7 @@
       <ion-grid>
         <ion-row class="history">
           <ion-col id="history-col" col-12>
-            <div id="history-list" class="history-list" [style.marginTop.px]="marginTop">
-              <ng-container *ngFor="let c of calcs; let last = last">
-                <div *ngIf="!(c.Operator == '=' && last)"  class="history-value">{{c.Operator}} {{c.Buffer | commaSeparatorPipe}}</div>
-                <div *ngIf="c.Operator == '=' && !last" class="history-value">------------------------------</div>
-              </ng-container>
-            </div>
+            <bottomup-list [calcs]="calcs" [len]="calcs.length"></bottomup-list>
           </ion-col>
         </ion-row>
         <ion-row justify-content-end class="main">

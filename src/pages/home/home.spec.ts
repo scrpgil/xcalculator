@@ -4,6 +4,7 @@ import { DebugElement } from '@angular/core';
 import { HomePage } from './home';
 import { IonicModule, Platform, NavController} from 'ionic-angular/index';
 import { PipesModule } from '../../pipes/pipes.module';
+import { ComponentsModule } from '../../components/components.module';
 import { DirectivesModule } from '../../directives/directives.module';
 
 describe('HomePage', () => {
@@ -16,6 +17,7 @@ describe('HomePage', () => {
             declarations: [HomePage],
             imports: [
                 PipesModule,
+                ComponentsModule,
                 DirectivesModule,
                 IonicModule.forRoot(HomePage)
             ],

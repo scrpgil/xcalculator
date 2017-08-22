@@ -1,11 +1,5 @@
 import { OnChanges, Directive, ElementRef, Input } from '@angular/core';
 
-/**
- * Generated class for the FlowtypeDirective directive.
- *
- * See https://angular.io/docs/ts/latest/api/core/index/DirectiveMetadata-class.html
- * for more info on Angular Directives.
- */
 @Directive({
     selector: '[flowtype]' // Attribute selector
 })

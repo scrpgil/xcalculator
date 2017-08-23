@@ -1,6 +1,6 @@
 <div #list id="history-list" class="history-list" [style.marginTop.px]="marginTop">
   <ng-container *ngFor="let c of calcs; let last = last">
     <div *ngIf="!(c.Operator == '=' && last)"  class="history-value">{{c.Operator}} {{c.Buffer | commaSeparatorPipe}}</div>
-    <div *ngIf="c.Operator == '=' && !last" class="history-value">------------------------------</div>
+    <hr *ngIf="c.Operator == '=' && !last" class="history-hr"/>
   </ng-container>
 </div>

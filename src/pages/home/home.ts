@@ -30,7 +30,8 @@ export class HomePage {
             this.nowCalc = this.calc.getNowCalc();
         }else{
             if(this.nowOperate == "="){
-                this.push(this.sumCalcs());
+                this.nowOperate = this.calc.changeNowCalcOperate("");
+                this.nowCalc = this.calc.push(this.sumCalcs());
                 this.calcs = this.calc.addOperator("");
                 this.nowCalc = this.calc.getNowCalc();
             }

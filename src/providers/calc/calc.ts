@@ -44,7 +44,7 @@ export class CalcProvider {
         if(y == 0){
             return Infinity;
         }
-        return x / y;
+        return Math.round((x / y) * 100000) / 100000;
     }
     push(x){
         if(this.nowCalc.Buffer.length <= 16){

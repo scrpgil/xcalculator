@@ -34,9 +34,6 @@ export class BottomupListComponent implements OnChanges{
             var cnt = 0;
             var itr = 10;
 
-            console.log(this.el.nativeElement.childElementCount);
-            console.log(this.oldChildElementCount);
-            console.log(Math.abs(this.el.nativeElement.childElementCount - this.oldChildElementCount));
             if(Math.abs(this.el.nativeElement.childElementCount - this.oldChildElementCount) >= 2){
                 itr = 5;
             }

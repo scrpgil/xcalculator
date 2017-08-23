@@ -7,16 +7,11 @@ export interface ICalc{
     Decimal: boolean;
 }
 
-export interface IOldCalcs{
-    Calcs: ICalc[][];
-}
-
 @Injectable()
 export class CalcProvider {
     public buf:string;
     public nowCalc:ICalc;
     public calcs:ICalc[] = [];
-    public oldCalcs:IOldCalcs;
 
     constructor() {
         this.init();
@@ -26,8 +21,6 @@ export class CalcProvider {
         this.buf = "";
         this.nowCalc = this.createCalc();
         this.calcs = [];
-        var oldCalcs:IOldCalcs;
-        this.oldCalcs = oldCalcs;
     }
 
     addition(x, y){
@@ -143,13 +136,5 @@ export class CalcProvider {
     }
     convertAtoI(num:string):number{
         return Number(num);
-    }
-    // ここからoldCalc関連
-    addOldCalcs(){
-        this.oldCalcs.Calcs.push(this.calcs);
-        return;
-    }
-    getOldCalcs(){
-        return this.oldCalcs;
     }
 }

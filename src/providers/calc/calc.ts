@@ -79,6 +79,7 @@ export class CalcProvider {
         var calc = this.createCalc("=");
         calc.Buffer = String(this.sumCalcs()); 
         this.calcs.push(calc);
+        this.decimalFlag = false;
     }
     allClear(){
         this.init();
@@ -96,6 +97,7 @@ export class CalcProvider {
         return this.calcs;
     }
     addOperator(operate:string = ""){
+        this.decimalFlag = false;
         var calc = this.createCalc(operate);
         return this.addCalcs(calc);
     }

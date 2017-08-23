@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 export interface ICalc{
     Buffer: string;
     Operator: string;
+    Decimal: boolean;
 }
 
 export interface IOldCalcs{
@@ -16,7 +17,6 @@ export class CalcProvider {
     public nowCalc:ICalc;
     public calcs:ICalc[] = [];
     public oldCalcs:IOldCalcs;
-    public decimalFlag:boolean = false;
 
     constructor() {
         this.init();
@@ -26,7 +26,6 @@ export class CalcProvider {
         this.buf = "";
         this.nowCalc = this.createCalc();
         this.calcs = [];
-        this.decimalFlag = false;
         var oldCalcs:IOldCalcs;
         this.oldCalcs = oldCalcs;
     }
@@ -58,19 +57,21 @@ export class CalcProvider {
     }
     clear(){
         this.nowCalc.Buffer = "";
-        this.decimalFlag = false;
+        this.nowCalc.Decimal = false;
         return this.nowCalc;
     }
     percent(){
         if(this.nowCalc.Buffer != ""){
             this.nowCalc.Buffer = String(Number(this.nowCalc.Buffer) / 100);
-            this.decimalFlag = true;
+            if(this.nowCalc.Buffer.indexOf('.') != -1){
+                this.nowCalc.Decimal = true;
+            }
         }
         return this.nowCalc;
     }
     decimal(){
-        if(!this.decimalFlag){
-            this.decimalFlag = true;
+        if(!this.nowCalc.Decimal){
+            this.nowCalc.Decimal = true;
             this.nowCalc.Buffer = this.nowCalc.Buffer + ".";
         }
         return this.nowCalc;
@@ -79,7 +80,6 @@ export class CalcProvider {
         var calc = this.createCalc("=");
         calc.Buffer = String(this.sumCalcs()); 
         this.calcs.push(calc);
-        this.decimalFlag = false;
     }
     allClear(){
         this.init();
@@ -97,7 +97,6 @@ export class CalcProvider {
         return this.calcs;
     }
     addOperator(operate:string = ""){
-        this.decimalFlag = false;
         var calc = this.createCalc(operate);
         return this.addCalcs(calc);
     }
@@ -109,7 +108,8 @@ export class CalcProvider {
     createCalc(operate:string = ""){
         var calc: ICalc= {
             Buffer:"",
-            Operator:operate
+            Operator:operate,
+            Decimal:false
         };
         return calc;
     }

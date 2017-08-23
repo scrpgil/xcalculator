@@ -52,7 +52,14 @@ describe('CalcProvider ', () => {
         provider.push(4);
         expect(provider.decimal().Buffer).toBe("4.");
         expect(provider.push(4).Buffer).toBe("4.4");
-        expect(provider.decimalFlag).toBe(true);
+        expect(provider.getNowCalc().Decimal).toBe(true);
+        provider.clear();
+        provider.push(9);
+        provider.addOperator("÷");
+        provider.push(2);
+        expect(provider.sumCalcs()).toBe(4.5);
+        expect(provider.getNowCalc().Decimal).toBe(true);
+        provider.allClear();
     });
     it('createCalc', ()=>{
         expect(provider.createCalc("+").Operator).toBe("+");

@@ -12,8 +12,13 @@ export class FlowtypeDirective implements OnChanges {
     ngOnInit(){
         var fontSize = this.flowType;
         this.el.nativeElement.style.fontSize = fontSize + "vw";
+        this.changeFontSize();
     }
     ngOnChanges(changes:any) {
+        this.changeFontSize();
+    }
+    changeFontSize(){
+        console.log("change:" + this.flowType );
         var fontSize = this.flowType;
         var len = this.text.length - 1;
         if(this.flowType > (100 / len) * 1.7){

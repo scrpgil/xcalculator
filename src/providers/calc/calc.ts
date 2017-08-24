@@ -39,7 +39,7 @@ export class CalcProvider {
         return Math.round((x / y) * 100000) / 100000;
     }
     push(x){
-        if(this.nowCalc.Buffer.length <= 16){
+        if(this.nowCalc.Buffer.length <= 14){
             this.nowCalc.Buffer = this.nowCalc.Buffer + x;
         }
         return this.nowCalc;

@@ -1,0 +1,22 @@
+= 電卓
+
+ionic + angularについて新ためて勉強したくて作成している電卓です。 +
+なるべく多くのionic + angualrの機能を使おうとしています。 +
+
+例えば、以下のような感じ。
+・カンマ区切りの表示はpipesで作成  +
+・過去の計算結果表示はcomponentで作成  +
+・文字サイズの自動変換はdirectiveで作成  +
+・ロジック的なことはなるべくproviderで実装  +
+・テストを書く  +
+・pipesモジュールで作成  +
+
+== UI＆機能について
+
+UI＆機能はiOSの電卓とxiaomiのスマホについている電卓を足して2で割った感じになっています。 +
+
+== PWA
+
+Netlifyで公開しています。 +
+
+link:https://xcalculator.netlify.com/[xcalculator]

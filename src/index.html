@@ -16,6 +16,26 @@
   <!-- cordova.js required for cordova apps -->
   <script src="cordova.js"></script>
 
+  <!-- PCから見たらionic-labのページに飛ばす -->
+  <script type="text/javascript">
+  function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+  var iframe = getParameterByName("iframe");
+  if(iframe != "true"){
+    if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
+    }else{
+      // PC用のページにリダイレクトする
+      location.href = 'lab/index.html';
+    }
+  }
+  </script>
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')

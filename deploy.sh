@@ -1,5 +1,8 @@
+rm -rf browser/*
 ionic cordova build browser --prod
-cd platforms/browser/www
+cp -rf lab browser/
+cp -rf platforms/browser/www/* browser
+cd browser
 git init
 git add . 
 git commit -m "auto deploy" 

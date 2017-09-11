@@ -1,8 +1,9 @@
-rm -rf browser/*
+rm -rf deploy/browser/*
 ionic cordova build browser --prod
-cp -rf lab browser/
-cp -rf platforms/browser/www/* browser
-cd browser
+cp -rf deploy/lab deploy/browser/
+cp -rf platforms/browser/www/*  deploy/browser/
+sed -i -e "/REDIRECT_SCRIPT/r deploy/redirect.txt" deploy/browser/index.html
+cd deploy/browser
 git init
 git add . 
 git commit -m "auto deploy" 

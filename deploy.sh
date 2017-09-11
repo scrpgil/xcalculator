@@ -1,4 +1,5 @@
-rm -rf deploy/browser/*
+rm -rf deploy/browser
+mkdir deploy/browser
 ionic cordova build browser --prod
 cp -rf deploy/lab deploy/browser/
 cp -rf platforms/browser/www/*  deploy/browser/

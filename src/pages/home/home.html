@@ -9,13 +9,13 @@
         </ion-row>
         <ion-row justify-content-end class="main">
           <ion-col id="main-display" align-self-end col-12>
-            <div *ngIf="nowOperate != '='" [flowtype]="12" text="{{nowOperate}} {{nowCalc.Buffer | commaSeparatorPipe}}" id="main-display-buf"></div>
-            <div *ngIf="nowOperate == '='" [flowtype]="12" text="= {{sumCalcs() | commaSeparatorPipe}}"></div>
+            <div *ngIf="nowOperate != '='" [flowtype]="nowOperate + ' ' + nowCalc.Buffer | commaSeparatorPipe" text="12" id="main-display-buf"></div>
+            <div *ngIf="nowOperate == '='" [flowtype]="'=' + sumCalcs() | commaSeparatorPipe" text="12"></div>
           </ion-col>
         </ion-row>
         <ion-row justify-content-center class="sub">
           <ion-col align-self-end col-12>
-            <div *ngIf="nowOperate != '='" [flowtype]="7" text="= {{sumCalcs() | commaSeparatorPipe}}"></div>
+            <div *ngIf="nowOperate != '='" [flowtype]="'=' + sumCalcs() | commaSeparatorPipe" text="7"></div>
           </ion-col>
         </ion-row>
       </ion-grid>

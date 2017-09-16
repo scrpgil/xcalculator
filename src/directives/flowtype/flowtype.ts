@@ -22,9 +22,9 @@ export class FlowtypeDirective implements OnChanges {
         console.log("change:" + this.size + ", text:" + this.flowtype);
         var fontSize = this.size;
         var len = this.flowtype.length - 1;
-        if(this.size > (100 / len) * 1.7){
-            var ret = (100 / len) * 1.7;
-            fontSize = ret;
+        var newSize = (100 / len) * 1.7;
+            if(this.size > newSize){
+            fontSize = newSize;
         }
         this.el.nativeElement.style.fontSize = fontSize + "vw";
         this.el.nativeElement.innerHTML = this.flowtype;
